@@ -1,16 +1,12 @@
 version: "2"
 services:
   rsnapshot-backup:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-      args:
-          buildno: 1
+    image: danyedarko/rsnapshot-backup:latest
     volumes: 
       - /root/data-backup:/snapshot
       - /root/.ssh:/root/.ssh
     environment: 
-      - BACKUP_DIRECTORIES=root@164.90.182.3:/home/debian/samba /snapshot
+      - BACKUP_DIRECTORIES=root@164.90.182.3:/home/debian/samba     /snapshot
   visualizer:
     image: dockersamples/visualizer
     ports:
