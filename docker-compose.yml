@@ -6,9 +6,9 @@ services:
       - /root/data-backup:/snapshot
       - /root/.ssh:/root/.ssh
     environment: 
-      - BACKUP_DIRECTORIES= root@164.90.182.3:/home/debian/   samba/snapshot
+      - BACKUP_DIRECTORIES=root@164.90.182.3:/home/debian/   samba/snapshot
   
-      visualizer:
+  visualizer:
     image: dockersamples/visualizer
     ports:
       - "8080:8080"  
