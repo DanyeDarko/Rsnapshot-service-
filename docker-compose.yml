@@ -3,9 +3,8 @@ services:
 
   snapshot-backup:
     build: blacklabelops/rsnapshot
-      context:
       args: 
-        -directorio_backups: /root/data-backup
+        - directorio_backups: /root/data-backup
     ports:
       - "22"
     volumes:
