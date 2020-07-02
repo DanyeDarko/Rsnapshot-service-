@@ -1,36 +1,21 @@
-version: "3.8"
-services:
-
-  snapshot-backup:
-    build: blacklabelops/rsnapshot
-      args: 
-        - directorio_backups=/root/data-backup
+version: "2.8"
+  rsnapshot-backup:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+          buildno: 1
+    volumes: 
+      - /root/data-backup:/snapshot
+      - /root/.ssh:/root/.ssh
+      
+  visualizer:
+    image: dockersamples/visualizer
     ports:
-      - "22"
+      - "8080:8080"  
     volumes:
-      -${directorio_backups}:/snapshot 
+      - "/var/run/docker.sock:/var/run/docker.sock"
     deploy:
       placement:
         constraints:
           - "node.role==manager"
-      replicas: 2
-      update_config:
-        parallelism: 2
-        delay: 10s
-      restart_policy:
-        condition: on-failure
-    configs:
-      - source: .rsnapshot.config
-        target: /etc/rsnapshot.conf
-
-  visualizer:
-    image: dockersamples/visualizer:stable
-    ports:
-      - "8080:8080"
-      stop_grace_period: 1m30s
-      volumes:
-        - "/var/run/docker.sock:/var/run/docker.sock"
-        deploy:
-          placement:
-            constraints:
-              - "node.role==manager"
